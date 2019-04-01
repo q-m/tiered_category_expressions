@@ -1,0 +1,4 @@
+--exclude lib/tiered_category_expressions/(?!(expression|preprocessor)\.rb)
+--output-dir ./docs
+--tag internal --hide-tag internal
+- LANGREF.md
