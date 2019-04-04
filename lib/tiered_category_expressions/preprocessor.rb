@@ -7,7 +7,7 @@ module TieredCategoryExpressions
       # @example
       #  category = ["Non-food", "Cosmetics"]
       #  preprocessed_category = TieredCategoryExpressions::Preprocessor.call(category)
-      #  TCE("nonfood > cosmetics").to_regexp.match? preprocessed_category
+      #  TCE("nonfood > cosmetics").to_regexp.match?(preprocessed_category)
       #  # => true
       #
       # @param category [Array<String>]

@@ -6,23 +6,26 @@ require "tiered_category_expressions/util"
 module TieredCategoryExpressions
   class ParseError < StandardError; end
 
-  # Converts input to an {Expression}.
-  #
-  # @param expression [Expression, #to_s]
-  # @return [Expression]
-  # @raise [ParseError] on input input
-  #
-  def self.Expression(expression)
-    case expression
-    when TieredCategoryExpressions::Expression then expression
-    else TieredCategoryExpressions::Expression.parse(expression.to_s)
+  class << self
+    # Converts input to an {Expression}.
+    #
+    # @param expression [Expression, #to_s]
+    # @return [Expression]
+    # @raise [ParseError] Raises if TCE syntax is invalid
+    #
+    def Expression(expression)
+      case expression
+      when TieredCategoryExpressions::Expression then expression
+      else TieredCategoryExpressions::Expression.parse(expression.to_s)
+      end
     end
+    alias TCE Expression
   end
 
   class Expression
     # @param str [String] Tiered category expression to parse
     # @return [Expression]
-    # @raise [ParseError] on input input
+    # @raise [ParseError] Raises if TCE syntax is invalid
     #
     def self.parse(str)
       tree = TieredCategoryExpressions::Parser.new.parse(str)
@@ -87,6 +90,26 @@ module TieredCategoryExpressions
     #
     def >(other)
       self.class.new(@tiers + TCE(other).tiers)
+    end
+
+    # Returns an SQL LIKE query that may be used to speed up certain SQL queries.
+    #
+    # SQL queries that involve matching some input against stored TCE regexps can be slow. Possibly, they can be
+    # optimized by applying a much faster LIKE query first, which reduces the number of regexps to apply. The LIKE
+    # query alone still yields false positives, so it must be combined with the corresponding regexp.
+    #
+    # For instance:
+    #
+    #  SELECT * FROM mappings WHERE 'foo>bar>baz>' LIKE tce_like_query AND 'foo>bar>baz>' ~ tce_regexp
+    #
+    # Can be much faster than:
+    #
+    #  SELECT * FROM mappings WHERE 'foo>bar>baz>' ~ tce_regexp
+    #
+    # Depending on the TCEs in the _mappings_ table.
+    #
+    def as_sql_like_query
+      @tiers.map(&:as_sql_like_query).join + "%"
     end
 
     protected

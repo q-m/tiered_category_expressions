@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "tiered_category_expressions"
   spec.version       = TieredCategoryExpressions::VERSION
   spec.authors       = ["Sjoerd Andringa"]
-  spec.email         = ["sjoerd.andringa@me.com"]
+  spec.email         = ["sjoerd@thequestionmark.org"]
 
   spec.summary       = %q{Tiered category expressions}
   spec.homepage      = "https://github.com/q-m/tiered_category_expressions"

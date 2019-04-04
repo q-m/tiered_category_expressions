@@ -11,5 +11,9 @@ module TieredCategoryExpressions
     def as_regexp
       "(#{@names.map(&:as_regexp).join('|')})"
     end
+
+    def as_sql_like_query
+      @names.size == 1 ? @names[0].as_sql_like_query : "%"
+    end
   end
 end

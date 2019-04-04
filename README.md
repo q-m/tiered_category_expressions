@@ -7,25 +7,35 @@ Work with TCEs in Ruby.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'tiered_category_expressions', github: "q-m/tiered_category_expressions"
+gem 'tiered_category_expressions'
 ```
 
 And then execute:
 
     $ bundle
 
-<!--
 Or install it yourself as:
 
     $ gem install tiered_category_expressions
--->
+
+And require with:
+
+```ruby
+require 'tiered_category_expressions'
+```
+
+Or, if you don't want the `TCE()` alias in the global namespace, require with:
+
+```ruby
+require 'tiered_category_expressions/core'
+```
 
 ## Documentation
 
-  - [Library documentation](https://developers.thequestionmark.org/tiered_category_expressions)
-  - [TCE language reference](https://developers.thequestionmark.org/tiered_category_expressions/file.LANGREF.html)
+  - [Library documentation](https://rubydocs.info/tiered_category_expressions)
+  - [TCE language reference](https://rubydocs.info/tiered_category_expressions/file.LANGREF.html)
 
-## Usage
+## Usage examples
 
 ```ruby
 tce = TCE("groceries > nonfood | pharmacy >> !baby formula")
@@ -54,7 +64,7 @@ TCE("groceries > nonfood") > TCE("baby") > ">> pacifiers"
 
 Run `rake spec` to run the tests. You can also run `bundle console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, run `bundle exec rake docs`, which will build and commit the documentation, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb` and run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 

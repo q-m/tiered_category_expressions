@@ -232,6 +232,34 @@ describe TieredCategoryExpressions do
       end
     end
 
+    describe "#as_sql_like_query" do
+      [
+        ["foo" ,              "foo>%"],
+        ["!foo",              "%>%"],
+        ["!%oo",              "%>%"],
+        ["FOO BÄR",           "foobar>%"],
+        ["foo > bar",         "foo>bar>%"],
+        ["foo > b%r",         "foo>b%r>%"],
+        ["foo > bar > baz",   "foo>bar>baz>%"],
+        ["foo > bar | baz",   "foo>%>%"],
+        ["foo > !bar",        "foo>%>%"],
+        ["foo > !bar | baz",  "foo>%>%"],
+        ["foo >> bar",        "foo>%bar>%"],
+        ["foo >> !bar",       "foo>%>%"],
+        ["foo >> bar | baz",  "foo>%>%"],
+        ["foo >> !bar | baz", "foo>%>%"],
+        [">> foo > bar",      "%foo>bar>%"],
+        [">> foo | bar",      "%>%"],
+        [">> !foo",           "%>%"],
+        [">> !fo%",           "%>%"],
+        [">> !foo | bar",     "%>%"]
+      ].each do |tce, expected|
+        it "returns #{expected.inspect} for #{TCE(tce).inspect}" do
+          expect(TCE(tce).as_sql_like_query).to eq expected
+        end
+      end
+    end
+
     describe "#>" do
       it "concatenates strings and expressions" do
         expect(TCE("noot") > ">> foobar|quux" > TCE("!mies")).to eq TCE("noot >> foobar|quux > !mies")
