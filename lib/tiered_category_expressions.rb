@@ -1,7 +1,7 @@
-require "tiered_category_expressions/version"
-require "tiered_category_expressions/expression"
+require "tiered_category_expressions/core"
+include TieredCategoryExpressions::Core
 
-# Alias of {TieredCategoryExpressions.Expression}.
-def TCE(expression)
-  TieredCategoryExpressions::Expression(expression)
-end
+# @!method TCE
+#   Alias of {TieredCategoryExpressions.TCE}. By default it is added to the global namespace. To avoid this, require
+#   this gem with:
+#    require 'tiered_category_expressions/core'

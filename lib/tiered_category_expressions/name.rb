@@ -3,7 +3,8 @@ require "tiered_category_expressions/util"
 module TieredCategoryExpressions
   class Name
     def initialize(name)
-      @name = name.strip.gsub(/\s+/, " ")
+      @name = name.strip.gsub(/%+/, "%").gsub(/\s+/, " ")
+      @normalized_name = Util.transliterate(@name.downcase).tr(" ", "")
     end
 
     def to_s
@@ -11,7 +12,11 @@ module TieredCategoryExpressions
     end
 
     def as_regexp
-      Util.transliterate(@name.downcase).tr(" ", "").gsub(/%/, ".*")
+      @normalized_name.gsub(/%/, ".*")
+    end
+
+    def as_sql_like_query
+      @normalized_name
     end
   end
 end

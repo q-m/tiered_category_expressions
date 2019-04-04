@@ -12,20 +12,11 @@ namespace :docs do
     print `bundle exec yardoc --title '#{title}'`
   end
 
-  desc "Commit changes to the ./docs folder"
-  task :commit do
-    message = "Update documentation for v#{TieredCategoryExpressions::VERSION}"
-    print `git commit --only ./docs --message '#{message}'`
-  end
-
   desc "View the YARD documentation in your browser"
   task :view do
-    print `open ./docs/index.html`
+    print `open ./doc/index.html`
   end
-
-  desc "Build and view the YARD documentation"
-  task :bv => [:build, :view]
 end
 
-desc "Build and commit the YARD documentation"
-task :docs => ["docs:build", "docs:commit"]
+desc "Build and view the YARD documentation"
+task :docs => ["docs:build", "docs:view"]

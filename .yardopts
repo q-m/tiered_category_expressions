@@ -1,4 +1,8 @@
---exclude lib/tiered_category_expressions/(?!(expression|preprocessor)\.rb)
---output-dir ./docs
---tag internal --hide-tag internal
-- LANGREF.md
+--tag internal
+--hide-tag internal
+lib/tiered_category_expressions.rb
+lib/tiered_category_expressions/expression.rb
+lib/tiered_category_expressions/preprocessor.rb
+-
+LANGREF.md
+LICENSE.txt

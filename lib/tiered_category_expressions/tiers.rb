@@ -8,6 +8,10 @@ module TieredCategoryExpressions
       raise NotImplementedError, "subclasses of Tier must implement `#as_regexp`"
     end
 
+    def as_sql_like_query
+      raise NotImplementedError, "subclasses of Tier must implement `#as_sql_like_query`"
+    end
+
     class Child < Tier
       def initialize(namelist)
         super(">", namelist)
@@ -15,6 +19,10 @@ module TieredCategoryExpressions
 
       def as_regexp
         "#{namelist.as_regexp}>"
+      end
+
+      def as_sql_like_query
+        "#{namelist.as_sql_like_query}>"
       end
     end
 
@@ -26,6 +34,10 @@ module TieredCategoryExpressions
       def as_regexp
         "(?!#{namelist.as_regexp}>).+>"
       end
+
+      def as_sql_like_query
+        "%>"
+      end
     end
 
     class Descendant < Tier
@@ -36,6 +48,10 @@ module TieredCategoryExpressions
       def as_regexp
         "(.+>)*#{namelist.as_regexp}>"
       end
+
+      def as_sql_like_query
+        "%#{namelist.as_sql_like_query}>".gsub(/%+/, "%")
+      end
     end
 
     class IDescendant < Tier
@@ -45,6 +61,10 @@ module TieredCategoryExpressions
 
       def as_regexp
         "(?!(.+>)*#{namelist.as_regexp}>).+>"
+      end
+
+      def as_sql_like_query
+        "%>"
       end
     end
   end
