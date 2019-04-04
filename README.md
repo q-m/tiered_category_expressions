@@ -32,8 +32,8 @@ require 'tiered_category_expressions/core'
 
 ## Documentation
 
-  - [Library documentation](https://rubydocs.info/tiered_category_expressions)
-  - [TCE language reference](https://rubydocs.info/tiered_category_expressions/file.LANGREF.html)
+  - [Library documentation](https://www.rubydoc.info/gems/tiered_category_expressions/)
+  - [TCE language reference](https://www.rubydoc.info/gems/tiered_category_expressions/file/LANGREF.md)
 
 ## Usage examples
 
