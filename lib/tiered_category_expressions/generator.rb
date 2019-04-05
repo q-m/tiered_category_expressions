@@ -14,6 +14,8 @@ module TieredCategoryExpressions
       # @return [Expression, nil]
       #
       def call(category)
+        return if category.empty?
+
         tiers = category.map { |t| sanitize_name(t) or return nil }
 
         TieredCategoryExpressions::TCE(tiers.join(" > "))

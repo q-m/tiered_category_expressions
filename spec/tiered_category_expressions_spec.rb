@@ -315,6 +315,7 @@ describe TieredCategoryExpressions do
     end
 
     [
+      [],
       [""],
       [" "],
       [" §@$ "],
