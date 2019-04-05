@@ -76,7 +76,7 @@ module TieredCategoryExpressions
     # @return [Boolean]
     #
     def ==(other)
-      to_regexp == TCE(other).to_regexp
+      to_regexp == TieredCategoryExpressions::TCE(other).to_regexp
     end
 
     # Concatenates two expressions.
@@ -89,7 +89,7 @@ module TieredCategoryExpressions
     # @return [Expression]
     #
     def >(other)
-      self.class.new(@tiers + TCE(other).tiers)
+      self.class.new(@tiers + TieredCategoryExpressions::TCE(other).tiers)
     end
 
     # Returns an SQL LIKE query that may be used to speed up certain SQL queries.
