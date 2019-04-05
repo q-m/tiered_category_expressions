@@ -1,11 +1,11 @@
 require "tiered_category_expressions/parser"
 require "tiered_category_expressions/transformer"
 require "tiered_category_expressions/preprocessor"
+require "tiered_category_expressions/generator"
 require "tiered_category_expressions/util"
+require "tiered_category_expressions/exceptions"
 
 module TieredCategoryExpressions
-  class ParseError < StandardError; end
-
   class << self
     # Converts input to an {Expression}.
     #
@@ -28,8 +28,8 @@ module TieredCategoryExpressions
     # @raise [ParseError] Raises if TCE syntax is invalid
     #
     def self.parse(str)
-      tree = TieredCategoryExpressions::Parser.new.parse(str)
-      TieredCategoryExpressions::Transformer.new.apply(tree)
+      tree = Parser.new.parse(str)
+      Transformer.new.apply(tree)
     rescue Parslet::ParseFailed => e
       deepest = Util.deepest_parse_failure_cause(e.parse_failure_cause)
       _, column = deepest.source.line_and_column(deepest.pos)

@@ -1,3 +1,5 @@
+require "tiered_category_expressions/util"
+
 module TieredCategoryExpressions
   # @internal TODO Deal with digits and dashes ("1-3 months" != "13months")
   module Preprocessor
@@ -23,7 +25,7 @@ module TieredCategoryExpressions
 
       def sanitize_name(str)
         str = Util.transliterate(str)
-        str.downcase.gsub(/[^a-z0-9]/, "") # remove all non word & non space characters
+        str.downcase.gsub(/[^a-z0-9]/, "") # remove all non-word & space characters
       end
     end
   end

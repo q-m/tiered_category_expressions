@@ -2,7 +2,9 @@
 --hide-tag internal
 lib/tiered_category_expressions.rb
 lib/tiered_category_expressions/expression.rb
+lib/tiered_category_expressions/generator.rb
 lib/tiered_category_expressions/preprocessor.rb
+lib/tiered_category_expressions/exceptions.rb
 -
 LANGREF.md
 LICENSE.txt
