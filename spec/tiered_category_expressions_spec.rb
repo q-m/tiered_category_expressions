@@ -294,4 +294,35 @@ describe TieredCategoryExpressions do
       end
     end
   end
+
+  describe "TieredCategoryExpressions::Generator.call" do
+    [
+      [["Foo"],               "Foo"],
+      [["Foo", "Bar"],        "Foo > Bar"],
+      [["Føø", "Bär"],        "Føø > Bär"],
+      [["Foo bar", "baz"],    "Foo bar > baz"],
+      [[" Foo  bar "],        "Foo bar"],
+      [["Foo", "Bar", "Baz"], "Foo > Bar > Baz"],
+      [["Foo-bar"],           "Foobar"],
+      [["F^^", "$ar"],        "F > ar"]
+    ].each do |category, expected|
+      it "returns #{TCE(expected).inspect} for #{category.inspect}" do
+        tce = TieredCategoryExpressions::Generator.call(category)
+        expect(tce).to be_a TieredCategoryExpressions::Expression
+        expect(tce.to_s).to eq expected
+        expect(tce.matches?(category)).to be true
+      end
+    end
+
+    [
+      [""],
+      [" "],
+      [" §@$ "],
+      ["Foo", "Bar", "-"]
+    ].each do |category|
+      it "returns nil for #{category.inspect}" do
+        expect(TieredCategoryExpressions::Generator.call(category)).to be nil
+      end
+    end
+  end
 end
