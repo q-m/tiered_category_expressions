@@ -73,7 +73,13 @@ describe TieredCategoryExpressions do
         ["foo%", %w[foo],   true],
         ["%",    %w[],      false],
         ["f%",   %w[bar],   false],
-        ["f%",   %w[bff],   false],
+
+        ["f%",   %w[foo bar],     true],
+        ["%oo",  %w[foo bar],     true],
+        ["f%r",  %w[foo bar],     false],
+        ["%ar",  %w[foo bar],     false],
+        ["ba%",  %w[foo bar],     false],
+        ["f%z",  %w[foo bar baz], false],
 
         ["foo > %", %w[foo bar],     true],
         ["foo > %", %w[foo bar baz], true],

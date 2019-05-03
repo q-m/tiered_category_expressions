@@ -12,7 +12,7 @@ module TieredCategoryExpressions
     end
 
     def as_regexp
-      @normalized_name.gsub(/%/, ".*")
+      @normalized_name.gsub(/%/, "[^>]*")
     end
 
     def as_sql_like_query
