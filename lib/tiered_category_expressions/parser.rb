@@ -19,7 +19,14 @@ module TieredCategoryExpressions
     rule(:name)      { word.repeat(1).as(:name) }
     rule(:namelist)  { (name >> (namesep >> name).repeat).as(:namelist) }
 
-    rule(:tce)       { space? >> (((connector | negator).as(:operator).maybe >> namelist).as(:tier) >> (connector.as(:operator) >> namelist).as(:tier).repeat).as(:expression) }
+    rule(:stop)      { str(".") >> space? }
+
+    rule(:tier1)     { ((connector | negator).as(:operator).maybe >> namelist).as(:tier) }
+    rule(:tier)      { (connector.as(:operator) >> namelist).as(:tier) }
+    rule(:tiers)     { tier.repeat >> (stop >> (tier.repeat(1, 1) >> tiers).as(:tail)).maybe }
+
+    rule(:tce)       { space? >> ((tier1.repeat(1, 1) >> tiers).as(:tiers) >> stop.as(:eoct).maybe).as(:expr) }
+
     root(:tce)
   end
 end

@@ -1,5 +1,18 @@
 module TieredCategoryExpressions
   class Tier < Struct.new(:operator, :namelist)
+    def self.build(operator, names)
+      klass = case operator&.to_s&.tr(" ", "")
+      when ">",  nil then Child
+      when ">!", "!" then IChild
+      when ">>"      then Descendant
+      when ">>!"     then IDescendant
+      else raise "no such operator #{operator.inspect}"
+      end
+
+      namelist = Namelist.new([names].flatten)
+      klass.new(namelist)
+    end
+
     def to_s
       "#{operator} #{namelist}"
     end
@@ -32,7 +45,7 @@ module TieredCategoryExpressions
       end
 
       def as_regexp
-        "(?!#{namelist.as_regexp}>).+>"
+        "(?!#{namelist.as_regexp}>)[a-z0-9]+>"
       end
 
       def as_sql_like_query
@@ -46,7 +59,7 @@ module TieredCategoryExpressions
       end
 
       def as_regexp
-        "(.+>)*#{namelist.as_regexp}>"
+        "([a-z0-9]+>)*#{namelist.as_regexp}>"
       end
 
       def as_sql_like_query
@@ -60,7 +73,7 @@ module TieredCategoryExpressions
       end
 
       def as_regexp
-        "(?!(.+>)*#{namelist.as_regexp}>).+>"
+        "(?!([a-z0-9]+>)*#{namelist.as_regexp}>)([a-z0-9]+>)+"
       end
 
       def as_sql_like_query
