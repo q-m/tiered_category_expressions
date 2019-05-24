@@ -1,6 +1,6 @@
 # Tiered Category Expressions
 
-Work with TCEs in Ruby.
+Work with TCE v1.1 in Ruby.
 
 ## Installation
 

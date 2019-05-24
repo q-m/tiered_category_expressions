@@ -259,6 +259,18 @@ describe TieredCategoryExpressions do
       ["veldsla | ijsbergsla | rucola", ["IJsbergsla"], true],
       ["veldsla | ijsbergsla | rucola", ["Rucola"], true],
 
+      ["agf > groente > komkommer.", ["AGF", "Groente", "Komkommer"], true],
+      ["agf > groente > komkommer.", ["AGF", "Groente", "Komkommer", "Snack komkommer"], false],
+
+      ["agf > groente. > komkommer", ["AGF", "Groente"], true],
+      ["agf > groente. > komkommer", ["AGF", "Groente", "Komkommer"], true],
+      ["agf > groente. > komkommer", ["AGF", "Groente", "Komkommer", "Snack komkommer"], true],
+      ["agf > groente. > komkommer", ["AGF", "Groente", "Tomaat"], false],
+
+      ["agf > groente. > komkommer.", ["AGF", "Groente"], true],
+      ["agf > groente. > komkommer.", ["AGF", "Groente", "Komkommer"], true],
+      ["agf > groente. > komkommer.", ["AGF", "Groente", "Tomaat"], false],
+      ["agf > groente. > komkommer.", ["AGF", "Groente", "Komkommer", "Snack komkommer"], false],
 
       ["groente > seizoensgroente > %", ["Groente", "Seizoensgroente", "Pastinaak"], true],
       ["groente > seizoensgroente > %", ["Groente", "Seizoensgroente", "Vers", "Pastinaak"], true],
@@ -276,7 +288,18 @@ describe TieredCategoryExpressions do
       ["nonfood >> ! babyvoeding | diervoeding", ["Nonfood", "Huisdier", "Diervoeding"], false],
       ["nonfood >> ! babyvoeding | diervoeding", ["Nonfood", "Babyvoeding"], false],
       ["nonfood >> ! babyvoeding | diervoeding", ["Nonfood", "Diervoeding"], false],
-      ["nonfood >> ! babyvoeding | diervoeding", ["Nonfood"], false]
+      ["nonfood >> ! babyvoeding | diervoeding", ["Nonfood"], false],
+
+      ["voeding. >> %voeding.", ["Voeding"], true],
+      ["voeding. >> %voeding.", ["Voeding", "Babyvoeding"], true],
+      ["voeding. >> %voeding.", ["Voeding", "Diervoeding"], true],
+      ["voeding. >> %voeding.", ["Voeding", "Baby", "Babyvoeding"], true],
+      ["voeding. >> %voeding.", ["Voeding", "Dier", "Diervoeding"], true],
+      ["voeding. >> %voeding.", ["Voeding", "AGF"], false],
+      ["voeding. >> %voeding.", ["Voeding", "Babyvoeding", "Newborn"], false],
+      ["voeding. >> %voeding.", ["Voeding", "Diervoeding", "Hond"], false],
+      ["voeding. >> %voeding.", ["Voeding", "Baby", "Babyvoeding", "Newborn"], false],
+      ["voeding. >> %voeding.", ["Voeding", "Dier", "Diervoeding", "Hond"], false]
     ]
 
     describe "#matches?" do
