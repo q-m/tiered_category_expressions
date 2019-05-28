@@ -41,7 +41,7 @@ require 'tiered_category_expressions/core'
 
 ```ruby
 tce = TCE("groceries > nonfood | pharmacy >> !baby formula")
-# => TieredCategoryExpressions::Expression[groceries > nonfood | pharmacy >> !baby formula]
+# => TieredCategoryExpressions::Expression
 
 tce.matches?(["Groceries", "Non-food", "Cleaning", "Soap"])
 # => true
@@ -53,13 +53,13 @@ tce.matches?(["Groceries", "Pharmacy", "Baby", "Pacifiers"])
 # => true
 
 tce.to_regexp
-# => /^(groceries)>(nonfood|pharmacy)>(?!(.+>)*(babyformula)>).+>/i
+# => Regexp
 
 tce.as_regexp
-# => "^(groceries)>(nonfood|pharmacy)>(?!(.+>)*(babyformula)>).+>"
+# => String
 
 TCE("groceries > nonfood") > TCE("baby") > ">> pacifiers"
-# => TieredCategoryExpressions::Expression[groceries > nonfood > baby >> pacifiers]
+# => TieredCategoryExpressions::Expression
 ```
 
 ## Development
