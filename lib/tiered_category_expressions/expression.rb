@@ -36,9 +36,12 @@ module TieredCategoryExpressions
       raise ParseError, "unexpected input at character #{column}"
     end
 
+    # @param strict [Boolean] If +true+ is given then the object should not match categories with tiers that extend
+    #   beyond those specified by the TCE. This is the case when the TCE ends with ".".
     # @!visibility private
-    def initialize(tiers)
+    def initialize(tiers, strict:)
       @tiers = tiers
+      @strict = strict
     end
 
     # @!visibility private
@@ -46,14 +49,18 @@ module TieredCategoryExpressions
       "TieredCategoryExpressions::Expression[#{self}]"
     end
 
+    # @param implied_root [Boolean] If +true+ no leading ">" is included.
     # @return [String] String representation of the expression
-    def to_s
-      @tiers.join(" ").sub(/^>(?!>)\s*/, "") # Initial ">" is implied (but ">>" is not)
+    def to_s(implied_root: true)
+      str = @tiers.join(" ")
+      str << "." if @strict
+      str = str.sub(/^>(?!>)\s*/, "") if implied_root # Initial ">" is implied (but ">>" is not)
+      str
     end
 
     # @return [Regexp] Regexp representation of the expression as a string (does not include flags)
     def as_regexp
-      "^#{@tiers.map(&:as_regexp).join}"
+      "^#{@tiers.map(&:as_regexp).join}#{'$' if @strict}"
     end
 
     # @return [String] Regexp representation of the expression
@@ -65,6 +72,7 @@ module TieredCategoryExpressions
     #
     # @param category [Array<String>] Category to match
     # @return [Boolean]
+    #
     def matches?(category)
       to_regexp.match?(Preprocessor.call(category))
     end
@@ -89,14 +97,14 @@ module TieredCategoryExpressions
     # @return [Expression]
     #
     def >(other)
-      self.class.new(@tiers + TieredCategoryExpressions::TCE(other).tiers)
+      TieredCategoryExpressions::TCE(to_s + TieredCategoryExpressions::TCE(other).to_s(implied_root: false))
     end
 
     # Returns an SQL LIKE query that may be used to speed up certain SQL queries.
     #
     # SQL queries that involve matching some input against stored TCE regexps can be slow. Possibly, they can be
     # optimized by applying a much faster LIKE query first, which reduces the number of regexps to apply. The LIKE
-    # query alone still yields false positives, so it must be combined with the corresponding regexp.
+    # query alone can still yield false positives, so it must be combined with the corresponding regexp.
     #
     # For instance:
     #
@@ -109,7 +117,9 @@ module TieredCategoryExpressions
     # Depending on the TCEs in the _mappings_ table.
     #
     def as_sql_like_query
-      @tiers.map(&:as_sql_like_query).join + "%"
+      q = @tiers.map(&:as_sql_like_query).join
+      q += "%" unless @strict || q.end_with?("%")
+      q
     end
 
     protected

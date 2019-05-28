@@ -1,4 +1,4 @@
-# TCE language reference
+# TCE v1.1 language reference
 
 ## Introduction
 
@@ -14,6 +14,7 @@ TCEs follow the same structure. They consist of category tier names separated by
 
   - `agf > groente`
   - `agf > groente > komkommer`
+  - `agf > groente > komkommer.`
   - `agf > groente > kom%`
   - `agf > groente | fruit > komkommer`
   - `agf > groente > !tomaat`
@@ -105,6 +106,41 @@ Note that TCEs are considered equal if they match the same categories. E.g. thes
 ["Rucola"]
 ```
 
+### Explicit last tier(s) `.`
+```ruby
+"agf > groente > komkommer."
+
+# Matches
+["AGF", "Groente", "Komkommer"]
+
+# Does not match
+["AGF", "Groente", "Komkommer", "Snack komkommer"]
+```
+
+```ruby
+"agf > groente. > komkommer"
+
+# Matches
+["AGF", "Groente"]
+["AGF", "Groente", "Komkommer"]
+["AGF", "Groente", "Komkommer", "Snack komkommer"]
+
+# Does not match
+["AGF", "Groente", "Tomaat"]
+```
+
+```ruby
+"agf > groente. > komkommer."
+
+# Matches
+["AGF", "Groente"]
+["AGF", "Groente", "Komkommer"]
+
+# Does not match
+["AGF", "Groente", "Tomaat"]
+["AGF", "Groente", "Komkommer", "Snack komkommer"]
+```
+
 ### Combining patterns
 ```ruby
 "groente > seizoensgroente > %"
@@ -141,4 +177,22 @@ Note that TCEs are considered equal if they match the same categories. E.g. thes
 ["Nonfood", "Babyvoeding"]
 ["Nonfood", "Diervoeding"]
 ["Nonfood"]
+```
+
+```ruby
+"voeding. >> %voeding."
+
+# Matches
+["Voeding"]
+["Voeding", "Babyvoeding"]
+["Voeding", "Diervoeding"]
+["Voeding", "Baby", "Babyvoeding"]
+["Voeding", "Dier", "Diervoeding"]
+
+# Does not match
+["Voeding", "AGF"]
+["Voeding", "Babyvoeding", "Newborn"]
+["Voeding", "Diervoeding", "Hond"]
+["Voeding", "Baby", "Babyvoeding", "Newborn"]
+["Voeding", "Dier", "Diervoeding", "Hond"]
 ```
