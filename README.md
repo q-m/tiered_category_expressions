@@ -1,3 +1,5 @@
+<img src="https://travis-ci.com/q-m/tiered_category_expressions.svg?branch=master" align="right" />
+
 # Tiered Category Expressions
 
 Work with TCE v1.1 in Ruby.
