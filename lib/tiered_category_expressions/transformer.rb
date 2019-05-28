@@ -7,9 +7,20 @@ require "tiered_category_expressions/expression"
 
 module TieredCategoryExpressions
   class Transformer < Parslet::Transform
-    rule(:name => simple(:name))    { Name.new(name.to_s) }
-    rule(:tier => subtree(:tier))   { Tier.build(tier[:operator], tier[:namelist]) }
-    rule(:tail => sequence(:tiers)) { Tail.new(tiers) }
-    rule(:expr => subtree(:expr))   { Expression.new(expr[:tiers], strict: expr.has_key?(:eoct)) }
+    rule(:name => simple(:name)) do
+      Name.new(name.to_s)
+    end
+
+    rule(:operator => simple(:op), :namelist => sequence(:names)) do
+      Tier.build(op, names)
+    end
+
+    rule(:tail => sequence(:tiers)) do
+      Tail.new(tiers)
+    end
+
+    rule(:tiers => sequence(:tiers), :eoct => simple(:eoct)) do
+      Expression.new(tiers, strict: !!eoct)
+    end
   end
 end

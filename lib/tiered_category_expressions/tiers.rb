@@ -9,7 +9,7 @@ module TieredCategoryExpressions
       else raise "no such operator #{operator.inspect}"
       end
 
-      namelist = Namelist.new([names].flatten)
+      namelist = Namelist.new(names)
       klass.new(namelist)
     end
 
