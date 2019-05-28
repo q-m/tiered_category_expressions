@@ -11,14 +11,18 @@ module TieredCategoryExpressions
       #  # => TieredCategoryExpressions::Expression[Nonfood > Baby > Baby formula]
       #
       # @param category [Array<String>]
+      # @param strict [Boolean] If +true+ is given then the resulting TCE will not match subcategories of the given
+      #   category.
       # @return [Expression, nil]
       #
-      def call(category)
+      def call(category, strict: false)
         return if category.empty?
 
         tiers = category.map { |t| sanitize_name(t) or return nil }
+        expression = tiers.join(">")
+        expression << "." if strict
 
-        TieredCategoryExpressions::TCE(tiers.join(" > "))
+        TieredCategoryExpressions::TCE(expression)
       end
 
       private

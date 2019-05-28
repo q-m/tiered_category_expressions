@@ -416,6 +416,13 @@ describe TieredCategoryExpressions do
       end
     end
 
+    context "with strict set to true" do
+      it "creates a strict expression object" do
+        tce = TieredCategoryExpressions::Generator.call(%w[foo bar], strict: true)
+        expect(tce).to be_strict
+      end
+    end
+
     [
       [],
       [""],
