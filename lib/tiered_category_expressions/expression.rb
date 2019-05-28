@@ -36,6 +36,8 @@ module TieredCategoryExpressions
       raise ParseError, "unexpected input at character #{column}"
     end
 
+    # @param strict [Boolean] If +true+ is given then the object should not match categories with tiers that extend
+    #   beyond those specified by the TCE. This is the case when the TCE ends with ".".
     # @!visibility private
     def initialize(tiers, strict:)
       @tiers = tiers
