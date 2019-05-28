@@ -372,7 +372,7 @@ describe TieredCategoryExpressions do
 
     describe "#to_s" do
       it "is its expression" do
-        tce = TCE("foo>>!bar>!bbb|aaa>%")
+        tce = TCE("foo>>!bar.>!bbb|aaa>%.")
         expect(TCE(tce.to_s)).to eq tce
       end
 
