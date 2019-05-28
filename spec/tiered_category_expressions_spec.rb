@@ -383,6 +383,18 @@ describe TieredCategoryExpressions do
         expect(TCE(">>!foo")).to eq ">> ! foo"
       end
     end
+
+    describe "#strict?" do
+      it "is false if subcategories must be matched (default)" do
+        expect(TCE("foo > bar").strict?).to be false
+        expect(TCE("foo. > bar").strict?).to be false
+      end
+
+      it "is true if subcategories must not be matched (trailing \".\")" do
+        expect(TCE("foo.").strict?).to be true
+        expect(TCE("foo > bar.").strict?).to be true
+      end
+    end
   end
 
   describe "TieredCategoryExpressions::Generator.call" do

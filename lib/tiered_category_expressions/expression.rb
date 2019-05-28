@@ -41,7 +41,7 @@ module TieredCategoryExpressions
     # @!visibility private
     def initialize(tiers, strict:)
       @tiers = tiers
-      @strict = strict
+      @strict = !!strict
     end
 
     # @!visibility private
@@ -98,6 +98,13 @@ module TieredCategoryExpressions
     #
     def >(other)
       TieredCategoryExpressions::TCE(to_s + TieredCategoryExpressions::TCE(other).to_s(implied_root: false))
+    end
+
+    # @return [Boolean] +true+ if the TCE object does not match categories with tiers that extend beyond those
+    #   specified by the TCE. This is the case when the TCE ends with ".".
+    #
+    def strict?
+      @strict
     end
 
     # Returns an SQL LIKE query that may be used to speed up certain SQL queries.
