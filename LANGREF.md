@@ -28,7 +28,7 @@ When a TCE is matched with a category:
   - Letter case is ignored, e.g. both "NONFOOD" and "NonFood" match "nonfood" and vice versa.
   - Everything other than alphabetic and numeric characters (including spaces) is ignored, e.g. "nonfood" matches both "non-food" and "non food".
   - Accents are ignored, e.g. "knäckebröd" matches "knackebrod" and vice versa.
-  - It matches a _subtree_ of categories, e.g. the TCE `"nonfood"` matches the category `["Nonfood"]` as well as `["Nonfood", "Schoonmaak", "Soda"]`.
+  - By default it matches a _subtree_ of categories, e.g. the TCE `"nonfood"` matches the category `["Nonfood"]` as well as `["Nonfood", "Schoonmaak", "Soda"]`.
 
 Even though they are ignored, tier names in TCEs may contain spaces, upper and lowercase characters and accented characters. To the contrary, they **cannot** contain special characters.
 
