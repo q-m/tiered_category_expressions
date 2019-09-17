@@ -39,6 +39,7 @@ require 'tiered_category_expressions/core'
 
   - [Library documentation](https://www.rubydoc.info/gems/tiered_category_expressions/)
   - [TCE language reference](https://www.rubydoc.info/gems/tiered_category_expressions/file/LANGREF.md)
+  - [Introductory blogpost](https://developers.thequestionmark.org/2019/07/24/pattern-matching-expert-system-classification)
 
 ## Usage examples
 
