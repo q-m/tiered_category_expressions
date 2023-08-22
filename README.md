@@ -1,6 +1,5 @@
 <div style="float: right">
 <a href="https://badge.fury.io/rb/tiered_category_expressions"><img src="https://badge.fury.io/rb/tiered_category_expressions.svg" alt="Rubygem" height="18" /></a>
-<a href="https://travis-ci.org/q-m/tiered_category_expressions/"><img src="https://travis-ci.org/q-m/tiered_category_expressions.svg?branch=master" alt="Travis CI" height="18"/></a>
 </div>
 
 # Tiered Category Expressions
